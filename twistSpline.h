@@ -343,7 +343,7 @@ public:
 		return computeTangent(s1verts, t);
 	}
 
-	/// Reject the first tangent
+	/// Reject (vs. Project) the first tangent
 	Vector rejectInitialNormal(const Vector &n) const {
 		return reject<Vector, Float>(computeTranTangent(0.0), n);
 	}
@@ -399,6 +399,9 @@ public:
 	  * The der3 value is some constant, and to step between der2 values, you add (der3 * stepLength)
 	  * So it follows that stepping to der1 values is just some linear function of the der2 values
 	  * Same with the output. There's complicated proof, but I think of it like forces pulling each other around
+      *
+      * See here for an animated explanation of what's happening: https://youtu.be/aVwxzDHniEw?t=483
+      * I derive the constant "jerk" value and use that to compute the accel, velocity, and position each step
 	  */
 	static void computeSplinePoints(const std::array<Point*, 4> pts, size_t lutSteps, PointArray &pOut, VectorArray &tOut) {
 		// Do the pre-calculations of the derivative vectors
